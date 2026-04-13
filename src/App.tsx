@@ -5,8 +5,8 @@
 
 import React from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { Phone, Mail, MapPin, Clock, Instagram, Facebook, ChevronRight, Cake, IceCream, Cookie, Coffee, CakeSlice, Sparkles, Heart, Candy, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Phone, Mail, MapPin, Clock, Instagram, Facebook, ChevronRight, Cake, IceCream, Cookie, Coffee, CakeSlice, Sparkles, Heart, Candy, ChevronDown, Menu, X as CloseIcon } from 'lucide-react';
 import { Zakusky } from './pages/Zakusky';
 import { Kontakt } from './pages/Kontakt';
 import { TortoveRezy } from './pages/TortoveRezy';
@@ -18,29 +18,33 @@ const Navbar = () => {
   const location = useLocation();
   const [isZakuskyOpen, setIsZakuskyOpen] = React.useState(false);
   const [isPecivoOpen, setIsPecivoOpen] = React.useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   
   const isActive = (path: string) => {
     return location.pathname === path;
   };
+
+  const closeMenu = () => setIsMobileMenuOpen(false);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-brand-accent/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-24">
           <div className="flex-shrink-0 flex items-center">
-            <Link to="/">
+            <Link to="/" onClick={closeMenu}>
               <img 
                 src="https://i.ibb.co/s9yY9jpv/image.png" 
                 alt="Cukráreň Študentská Logo" 
-                className="h-20 w-auto"
+                className="h-16 md:h-20 w-auto"
                 style={{ clipPath: 'inset(0 1px)' }}
                 referrerPolicy="no-referrer"
               />
             </Link>
           </div>
           
+          {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6 items-center">
-            <Link to="/" onClick={() => window.scrollTo(0, 0)} className={`relative transition-colors font-semibold text-base ${isActive('/') ? 'text-brand-accent' : 'text-brand-dark hover:text-brand-accent'}`}>
+            <Link to="/" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className={`relative transition-colors font-semibold text-base ${isActive('/') ? 'text-brand-accent' : 'text-brand-dark hover:text-brand-accent'}`}>
               Domov
               {isActive('/') && <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-brand-accent rounded-full"></span>}
             </Link>
@@ -54,12 +58,12 @@ const Navbar = () => {
                 Zákusky <ChevronDown size={14} />
               </button>
               <div className={`absolute top-full left-0 w-48 bg-white shadow-xl rounded-2xl py-4 border border-brand-accent/10 transition-all duration-200 ${isZakuskyOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
-                <Link to="/zakusky?typ=klasicke" onClick={() => window.scrollTo(0, 0)} className="block px-6 py-2 hover:bg-brand-pink hover:text-brand-accent transition-colors">Klasické</Link>
-                <Link to="/zakusky?typ=specialne" onClick={() => window.scrollTo(0, 0)} className="block px-6 py-2 hover:bg-brand-pink hover:text-brand-accent transition-colors">Špeciálne</Link>
+                <Link to="/zakusky?typ=klasicke" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className="block px-6 py-2 hover:bg-brand-pink hover:text-brand-accent transition-colors">Klasické</Link>
+                <Link to="/zakusky?typ=specialne" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className="block px-6 py-2 hover:bg-brand-pink hover:text-brand-accent transition-colors">Špeciálne</Link>
               </div>
             </div>
 
-            <Link to="/tortove-rezy" onClick={() => window.scrollTo(0, 0)} className={`relative transition-colors font-semibold text-base ${isActive('/tortove-rezy') ? 'text-brand-accent' : 'text-brand-dark hover:text-brand-accent'}`}>
+            <Link to="/tortove-rezy" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className={`relative transition-colors font-semibold text-base ${isActive('/tortove-rezy') ? 'text-brand-accent' : 'text-brand-dark hover:text-brand-accent'}`}>
               Tortové rezy
             </Link>
             
@@ -72,33 +76,87 @@ const Navbar = () => {
                 Pečivo <ChevronDown size={14} />
               </button>
               <div className={`absolute top-full left-0 w-48 bg-white shadow-xl rounded-2xl py-4 border border-brand-accent/10 transition-all duration-200 ${isPecivoOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
-                <Link to="/suche-pecivo?typ=suche" onClick={() => window.scrollTo(0, 0)} className="block px-6 py-2 hover:bg-brand-pink hover:text-brand-accent transition-colors">Suché</Link>
-                <Link to="/suche-pecivo?typ=cajove" onClick={() => window.scrollTo(0, 0)} className="block px-6 py-2 hover:bg-brand-pink hover:text-brand-accent transition-colors">Čajové</Link>
+                <Link to="/suche-pecivo?typ=suche" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className="block px-6 py-2 hover:bg-brand-pink hover:text-brand-accent transition-colors">Suché</Link>
+                <Link to="/suche-pecivo?typ=cajove" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className="block px-6 py-2 hover:bg-brand-pink hover:text-brand-accent transition-colors">Čajové</Link>
               </div>
             </div>
 
-            <Link to="/torty-na-objednavku" onClick={() => window.scrollTo(0, 0)} className={`relative transition-colors font-semibold text-base ${isActive('/torty-na-objednavku') ? 'text-brand-accent' : 'text-brand-dark hover:text-brand-accent'}`}>
+            <Link to="/torty-na-objednavku" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className={`relative transition-colors font-semibold text-base ${isActive('/torty-na-objednavku') ? 'text-brand-accent' : 'text-brand-dark hover:text-brand-accent'}`}>
               Torty na objednávku
             </Link>
-            <Link to="/zmrzlina" onClick={() => window.scrollTo(0, 0)} className={`relative transition-colors font-semibold text-base ${isActive('/zmrzlina') ? 'text-brand-accent' : 'text-brand-dark hover:text-brand-accent'}`}>
+            <Link to="/zmrzlina" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className={`relative transition-colors font-semibold text-base ${isActive('/zmrzlina') ? 'text-brand-accent' : 'text-brand-dark hover:text-brand-accent'}`}>
               Zmrzlina
             </Link>
-            <Link to="/kontakt" onClick={() => window.scrollTo(0, 0)} className={`relative transition-colors font-semibold text-base ${isActive('/kontakt') ? 'text-brand-accent' : 'text-brand-dark hover:text-brand-accent'}`}>
+            <Link to="/kontakt" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className={`relative transition-colors font-semibold text-base ${isActive('/kontakt') ? 'text-brand-accent' : 'text-brand-dark hover:text-brand-accent'}`}>
               Kontakt
             </Link>
           </div>
 
-          <div className="flex items-center gap-3 text-brand-dark">
-            <div className="bg-brand-accent/10 p-2 rounded-full text-brand-accent hidden lg:block">
-              <Phone size={20} />
+          <div className="flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-3 text-brand-dark">
+              <div className="bg-brand-accent/10 p-2 rounded-full text-brand-accent">
+                <Phone size={20} />
+              </div>
+              <div className="flex flex-col items-start leading-tight">
+                <a href="tel:0915493127" className="text-sm font-bold hover:text-brand-accent transition-colors">0915 493 127</a>
+                <a href="tel:0944450336" className="text-sm font-bold hover:text-brand-accent transition-colors">0944 450 336</a>
+              </div>
             </div>
-            <div className="flex flex-col items-start leading-tight">
-              <a href="tel:0915493127" className="text-sm font-bold hover:text-brand-accent transition-colors">0915 493 127</a>
-              <a href="tel:0944450336" className="text-sm font-bold hover:text-brand-accent transition-colors">0944 450 336</a>
-            </div>
+
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden p-2 text-brand-dark hover:text-brand-accent transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <CloseIcon size={32} /> : <Menu size={32} />}
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-white border-t border-brand-accent/10 overflow-hidden"
+          >
+            <div className="px-4 py-6 space-y-4">
+              <Link to="/" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className={`block text-lg font-bold ${isActive('/') ? 'text-brand-accent' : 'text-brand-dark'}`}>Domov</Link>
+              
+              <div className="space-y-2">
+                <p className="text-sm font-bold text-gray-400 uppercase tracking-wider">Zákusky</p>
+                <Link to="/zakusky?typ=klasicke" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className="block pl-4 text-lg font-semibold text-brand-dark">Klasické</Link>
+                <Link to="/zakusky?typ=specialne" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className="block pl-4 text-lg font-semibold text-brand-dark">Špeciálne</Link>
+              </div>
+
+              <Link to="/tortove-rezy" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className={`block text-lg font-bold ${isActive('/tortove-rezy') ? 'text-brand-accent' : 'text-brand-dark'}`}>Tortové rezy</Link>
+
+              <div className="space-y-2">
+                <p className="text-sm font-bold text-gray-400 uppercase tracking-wider">Pečivo</p>
+                <Link to="/suche-pecivo?typ=suche" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className="block pl-4 text-lg font-semibold text-brand-dark">Suché</Link>
+                <Link to="/suche-pecivo?typ=cajove" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className="block pl-4 text-lg font-semibold text-brand-dark">Čajové</Link>
+              </div>
+
+              <Link to="/torty-na-objednavku" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className={`block text-lg font-bold ${isActive('/torty-na-objednavku') ? 'text-brand-accent' : 'text-brand-dark'}`}>Torty na objednávku</Link>
+              <Link to="/zmrzlina" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className={`block text-lg font-bold ${isActive('/zmrzlina') ? 'text-brand-accent' : 'text-brand-dark'}`}>Zmrzlina</Link>
+              <Link to="/kontakt" onClick={() => { window.scrollTo(0, 0); closeMenu(); }} className={`block text-lg font-bold ${isActive('/kontakt') ? 'text-brand-accent' : 'text-brand-dark'}`}>Kontakt</Link>
+              
+              <div className="pt-4 border-t border-brand-accent/5">
+                <div className="flex items-center gap-3 text-brand-dark">
+                  <Phone size={20} className="text-brand-accent" />
+                  <div className="flex flex-col">
+                    <a href="tel:0915493127" className="font-bold">0915 493 127</a>
+                    <a href="tel:0944450336" className="font-bold">0944 450 336</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
@@ -165,29 +223,29 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="relative lg:col-span-7"
+            className="relative lg:col-span-7 mt-12 lg:mt-0"
           >
             {/* Playful Image Layout */}
-            <div className="relative z-10 grid grid-cols-12 gap-4 items-end">
+            <div className="relative z-10 grid grid-cols-2 lg:grid-cols-12 gap-4 items-center lg:items-end">
               <motion.div 
                 whileHover={{ scale: 1.05, rotate: 0 }}
-                className="col-span-7 rounded-[40px] overflow-hidden shadow-2xl transform -rotate-6 border-8 border-white"
+                className="col-span-1 lg:col-span-7 rounded-[30px] lg:rounded-[40px] overflow-hidden shadow-2xl transform -rotate-3 lg:-rotate-6 border-4 lg:border-8 border-white"
               >
                 <img 
                   src="https://i.ibb.co/n8My7mvd/Snap-Insta-to-650769767-17975194352997789-9089106100036431215-n-1.jpg" 
                   alt="Delicious cake" 
-                  className="w-full h-[550px] object-cover"
+                  className="w-full h-[300px] md:h-[400px] lg:h-[550px] object-cover"
                   referrerPolicy="no-referrer"
                 />
               </motion.div>
               <motion.div 
                 whileHover={{ scale: 1.05, rotate: 0 }}
-                className="col-span-5 rounded-[40px] overflow-hidden shadow-2xl transform rotate-6 border-8 border-white mb-16"
+                className="col-span-1 lg:col-span-5 rounded-[30px] lg:rounded-[40px] overflow-hidden shadow-2xl transform rotate-3 lg:rotate-6 border-4 lg:border-8 border-white lg:mb-16"
               >
                 <img 
                   src="https://i.ibb.co/DPtcQGM1/Snap-Insta-to-640840731-17973475229997789-6664834897422142912-n.jpg" 
                   alt="Fresh coffee" 
-                  className="w-full h-[450px] object-cover"
+                  className="w-full h-[250px] md:h-[350px] lg:h-[450px] object-cover"
                   referrerPolicy="no-referrer"
                 />
               </motion.div>
